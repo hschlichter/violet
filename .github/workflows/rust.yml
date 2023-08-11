@@ -12,9 +12,7 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v3
-      - name: Build
-        run: cargo build --verbose
-      - name: Create cargo cache
+      - name: Cargo cache
         uses: actions/cache@v3
         with:
           path: |
@@ -24,13 +22,15 @@ jobs:
             ~/.cargo/git/db/
             target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      - name: Build
+        run: cargo build --verbose
   test:
     runs-on: ubuntu-latest
     needs: build
     steps:
       - name: Checkout sources
         uses: actions/checkout@v3
-      - name: Restore cargo cache
+      - name: Cargo cache
         uses: actions/cache@v3
         with:
           path: |
